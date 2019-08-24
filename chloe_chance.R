@@ -1,0 +1,48 @@
+# number of random draws
+nsim = 10000
+sim = numeric(nsim)
+
+# number of sticker to test the probability of
+# assumes no second chance shuffle
+nstickers = 7
+
+pb = txtProgressBar(1, nsim, style = 3)
+for (i in 1:nsim) {
+    setTxtProgressBar(pb, i)
+
+    # assume a structure like this:
+    #1   2  3  4
+    #5   6  7  8
+    #9  10 11 12
+    #13 14 15 16
+
+    # draw a set of stickers
+    d = 1:16 %in% sample(1:16, nstickers)
+
+    # horizontal rows
+    h1 = if (d[1]  & d[2]  & d[3]  & d[4] ) TRUE else FALSE
+    h2 = if (d[5]  & d[6]  & d[7]  & d[8] ) TRUE else FALSE
+    h3 = if (d[9]  & d[10] & d[11] & d[12]) TRUE else FALSE
+    h4 = if (d[13] & d[14] & d[15] & d[16]) TRUE else FALSE
+
+    # vertical columns
+    v1 = if (d[1]  & d[5]  & d[9]  & d[13]) TRUE else FALSE
+    v2 = if (d[2]  & d[6]  & d[10] & d[14]) TRUE else FALSE
+    v3 = if (d[3]  & d[7]  & d[11] & d[15]) TRUE else FALSE
+    v4 = if (d[4]  & d[8]  & d[12] & d[16]) TRUE else FALSE
+
+    # diagnols
+    d1 = if (d[1]  & d[6]  & d[11] & d[16]) TRUE else FALSE
+    d2 = if (d[4]  & d[7]  & d[10] & d[13]) TRUE else FALSE
+
+    # count the lines
+    sim[i] = length(which(c(h1, h2, h3, h4, v1, v2, v3, v4, d1, d2)))
+}
+close(pb)
+
+chances = table(sim)/nsim
+
+message("your chance of getting 0 line is: ", chances[1]*100)
+message("your chance of getting 1 line is: ", chances[2]*100)
+message("your chance of getting 2 line is: ", chances[3]*100)
+message("your chance of getting 3 line is: ", chances[4]*100)
