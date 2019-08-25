@@ -1,10 +1,12 @@
 # number of random draws
-nsim = 10000
+nsim = 100000
 sim = numeric(nsim)
 
 # number of sticker to test the probability of
 # assumes no second chance shuffle
 nstickers = 7
+
+message('Simulating ', nstickers, ' stickers with no reshuffle.')
 
 pb = txtProgressBar(1, nsim, style = 3)
 for (i in 1:nsim) {
@@ -42,7 +44,7 @@ close(pb)
 
 chances = table(sim)/nsim
 
-message("your chance of getting 0 line is: ", chances[1]*100)
-message("your chance of getting 1 line is: ", chances[2]*100)
-message("your chance of getting 2 line is: ", chances[3]*100)
-message("your chance of getting 3 line is: ", chances[4]*100)
+message("your chance of getting 0 line(s) is: ", chances[1]*100)
+message("your chance of getting 1 line(s) is: ", chances[2]*100)
+message("your chance of getting 2 line(s) is: ", chances[3]*100)
+message("your chance of getting 3 line(s) is: ", chances[4]*100)
